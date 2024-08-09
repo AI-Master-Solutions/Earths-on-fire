@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8bad042fe9223c598751c6c2316a44df {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_8bad042fe9223c598751c6c2316a44df" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8bad042fe9223c598751c6c2316a44df = L.map(
+                "map_8bad042fe9223c598751c6c2316a44df",
+                {
+                    center: [36.890333, -95.967285],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 4,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_8f2ac33261c8e59ee718b05ac4017bcb = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_8f2ac33261c8e59ee718b05ac4017bcb.addTo(map_8bad042fe9223c598751c6c2316a44df);
+        
+    
+            var image_overlay_fe7b72c9394e378fc42011f8ae3bdf1f = L.imageOverlay(
+                "https://gis.earthdata.nasa.gov/image/rest/directories/arcgisoutput/C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_HOURLY_TROPOSPHERIC_VERTICAL_COLUMN_BETA_ImageServer/_ags_1232650d_4702_4ce7_9a95_3d88981ea623.png",
+                [[22.373975499999993, -125], [51.406690499999996, -66.93457]],
+                {"crossOrigin": false, "interactive": true, "opacity": 0.5, "zindex": 1}
+            );
+        
+    
+            image_overlay_fe7b72c9394e378fc42011f8ae3bdf1f.addTo(map_8bad042fe9223c598751c6c2316a44df);
+        
+    
+            var layer_control_b15ca6caf16649cbcbea441e226e209e_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_8f2ac33261c8e59ee718b05ac4017bcb,
+                },
+                overlays :  {
+                    "TEMPO Image" : image_overlay_fe7b72c9394e378fc42011f8ae3bdf1f,
+                },
+            };
+            let layer_control_b15ca6caf16649cbcbea441e226e209e = L.control.layers(
+                layer_control_b15ca6caf16649cbcbea441e226e209e_layers.base_layers,
+                layer_control_b15ca6caf16649cbcbea441e226e209e_layers.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_8bad042fe9223c598751c6c2316a44df);
+
+        
+</script>
+</html>

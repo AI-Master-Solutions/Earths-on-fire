@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_af609ae1cf96c2289c6636a9e4194723 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_af609ae1cf96c2289c6636a9e4194723" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_af609ae1cf96c2289c6636a9e4194723 = L.map(
+                "map_af609ae1cf96c2289c6636a9e4194723",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 2,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a6fe2787a0f0b71cac258710aa6c7d3f = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_a6fe2787a0f0b71cac258710aa6c7d3f.addTo(map_af609ae1cf96c2289c6636a9e4194723);
+        
+    
+            var image_overlay_e873baec3b51fddb1480bfccec989a74 = L.imageOverlay(
+                "https://arcgis.asdc.larc.nasa.gov/server/rest/services/POWER/power_901_monthly_meteorology_utc/ImageServer/exportImage?bbox=-180%2C-90%2C180%2C90\u0026bboxSR=\u0026size=\u0026imageSR=\u0026time=349747200000\u0026format=jpgpng\u0026pixelType=F64\u0026noData=\u0026noDataInterpretation=esriNoDataMatchAny\u0026interpolation=RSP_BilinearInterpolation\u0026compression=\u0026compressionQuality=\u0026bandIds=\u0026sliceId=\u0026mosaicRule=%7B%22multidimensionalDefinition%22%3A%5B%7B%22variableName%22%3A%22T2M%22%7D%5D%7D\u0026renderingRule=\u0026adjustAspectRatio=true\u0026validateExtent=false\u0026lercVersion=1\u0026compressionTolerance=\u0026f=image",
+                [[-90, -180], [90, 180]],
+                {"opacity": 0.5}
+            );
+        
+    
+            image_overlay_e873baec3b51fddb1480bfccec989a74.addTo(map_af609ae1cf96c2289c6636a9e4194723);
+        
+</script>
+</html>

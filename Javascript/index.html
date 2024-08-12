@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>ImageryTileLayer Example</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.22/"></script>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/ImageryTileLayer"
+    ], function(Map, MapView, ImageryTileLayer) {
+      var map = new Map({
+        basemap: "streets"
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-98, 35],
+        zoom: 4
+      });
+
+      var imageryTileLayer = new ImageryTileLayer({
+        url: "https://tempo.nasa.gov/arcgis/rest/services/tempo/ImageServer"
+      });
+
+      map.add(imageryTileLayer);
+    });
+  </script>
+</body>
+
+</html>

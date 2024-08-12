@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEMPO Data ImageryTileLayer with Get Samples</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+  <style>
+    html, body, #viewDiv {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #controlPanel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div>
+  <div id="controlPanel">
+    <h3>Draw a Shape and Get Samples</h3>
+    <button onclick="clearGraphics()">Clear Drawings</button>
+  </div>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/ImageryTileLayer",
+      "esri/layers/support/MosaicRule",
+      "esri/widgets/Sketch",
+      "esri/layers/GraphicsLayer",
+      "esri/geometry/geometryEngine"
+    ], function(Map, MapView, ImageryTileLayer, MosaicRule, Sketch, GraphicsLayer, geometryEngine) {
+      // Create the map
+      var map = new Map({
+        basemap: "streets-vector" 
+      });
+
+      // Create the map view
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-95, 35], 
+        zoom: 4
+      });
+
+      // Create the ImageryTileLayer with the URL of the TEMPO service
+      var imageryTileLayer = new ImageryTileLayer({
+        url: "https://gis.earthdata.nasa.gov/image/rest/services/C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_tile_cache_test/ImageServer"
+      });
+
+      // Add the ImageryTileLayer to the map
+      map.add(imageryTileLayer);
+
+      // Add a graphics layer for the Sketch widget
+      var graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+
+      // Create the Sketch widget
+      var sketch = new Sketch({
+        view: view,
+        layer: graphicsLayer,
+        creationMode: "single"
+      });
+
+      // Add the Sketch widget to the view
+      view.ui.add(sketch, "top-right");
+
+      // Handle the completion of drawing
+      sketch.on("create", function(event) {
+        if (event.state === "complete") {
+          var geometry = event.graphic.geometry;
+          performGetSamplesRequest(geometry);
+        }
+      });
+
+      // Function to clear the graphics
+      window.clearGraphics = function() {
+        graphicsLayer.removeAll();
+      };
+
+      // Function to perform the Get Samples request
+      function performGetSamplesRequest(geometry) {
+        // Example of preparing the geometry for the Get Samples request
+        var geometryJson = JSON.stringify(geometry.toJSON());
+        console.log("Performing Get Samples request with geometry:", geometryJson);
+        
+        // Implement your Get Samples request logic here
+        // Use the geometry to make the Get Samples request to the TEMPO ImageServer
+      }
+      
+      
+
+      // Register the service worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').then(registration => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(error => {
+          console.error('Service Worker registration failed:', error);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

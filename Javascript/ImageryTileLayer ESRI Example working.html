@@ -1,0 +1,56 @@
+html
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>ArcGIS API for JavaScript: C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_tile_cache_test</title>
+<!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+<script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NASA&subagency=GSFC" id="_fed_an_ua_tag"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+<!-- Favorite Bookmark Icon -->
+<link rel="shortcut icon" type="image/ico" href="//www.esri.com/favicon.ico" />
+<link rel="icon" type="image/ico" href="//www.esri.com/favicon.ico" />
+<!-- End Favorite Bookmark Icon --> 
+<link href="/image/rest/static/jsapi-template-main.css" rel="stylesheet" type="text/css"/>
+<link href="https://js.arcgis.com/4.25/esri/css/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://js.arcgis.com/4.25/"></script>
+<style>
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 97.5%;
+  width: 100%;
+}
+</style>
+<script type="text/javascript">
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/ImageryTileLayer"
+], (
+  Map, MapView, ImageryTileLayer
+) => {
+  const layer = new ImageryTileLayer({
+    url: "https://gis.earthdata.nasa.gov/image/rest/services/C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_tile_cache_test/ImageServer"
+  });
+
+  const map = new Map({
+    basemap: "streets-vector", // Basemap layer
+    layers: [layer] // Add the ImageryTileLayer to the map
+  });
+
+  const view = new MapView({
+    container: "viewDiv",
+    map: map,
+    center: [-95, 35], // Centered on the United States
+    zoom: 4
+  });
+});
+</script>
+</head>
+<body>
+<div id="viewDiv"></div>
+</body>
+</html>

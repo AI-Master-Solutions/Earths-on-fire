@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEMPO Data ImageryLayer</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.22/"></script>
+  <style>
+    html, body, #viewDiv {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #controlPanel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div>
+  <div id="controlPanel">
+    <h3>Configure ImageryLayer</h3>
+    <label for="variableName">Variable Name:</label>
+    <input type="text" id="variableName" value="NO2_tropo"><br>
+    <label for="dateTime">Date Time (YYYY-MM-DD HH:MM:SS):</label>
+    <input type="text" id="dateTime" value="2024-05-14 12:00:00"><br>
+    <button onclick="updateLayer()">Update Layer</button>
+  </div>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/ImageryLayer",
+      "esri/layers/support/MosaicRule"
+    ], function(Map, MapView, ImageryLayer, MosaicRule) {
+      // Create the map
+      var map = new Map({
+        basemap: "streets-vector" // Change to streets-vector
+      });
+
+      // Create the map view
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-95, 35], // Centered on the United States
+        zoom: 4
+      });
+
+      // Create the ImageryLayer with the URL of the TEMPO service
+      var imageryLayer = new ImageryLayer({
+        url: "https://gis.earthdata.nasa.gov/image/rest/services/C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_HOURLY_TROPOSPHERIC_VERTICAL_COLUMN_BETA/ImageServer"
+      });
+
+      // Add the ImageryLayer to the map
+      map.add(imageryLayer);
+
+      // Function to convert date and time to milliseconds
+      function convertToMilliseconds(dateTimeStr) {
+        var date = new Date(dateTimeStr);
+        return date.getTime();
+      }
+
+      // Function to update the layer with user parameters
+      window.updateLayer = function() {
+        // Get values entered by the user
+        var variableName = document.getElementById('variableName').value || "NO2_tropo";
+        var dateTimeStr = document.getElementById('dateTime').value || "2024-05-14 12:00:00";
+
+        var timeMilliseconds = convertToMilliseconds(dateTimeStr);
+
+        // Configure MosaicRule
+        var mosaicRule = new MosaicRule({
+          multidimensionalDefinition: [{
+            variableName: variableName
+          }]
+        });
+
+        // Update layer properties
+        imageryLayer.mosaicRule = mosaicRule;
+        imageryLayer.timeExtent = {
+          start: timeMilliseconds,
+          end: timeMilliseconds
+        };
+
+        // Redraw the layer
+        imageryLayer.refresh();
+      }
+    });
+  </script>
+</body>
+</html>

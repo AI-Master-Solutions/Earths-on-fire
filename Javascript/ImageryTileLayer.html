@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>ImageryTileLayer Example</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.22/"></script>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/ImageryTileLayer"
+    ], function(Map, MapView, ImageryTileLayer) {
+      // Étape 2 : Créer une carte
+      var map = new Map({
+        basemap: "streets"
+      });
+
+      // Étape 3 : Créer une vue de carte
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-98, 35], // Long, Lat
+        zoom: 4
+      });
+
+      // Étape 4 : Ajouter un ImageryTileLayer
+      var imageryTileLayer = new ImageryTileLayer({
+        url: "URL_DU_SERVEUR_TEMPO"
+      });
+
+      map.add(imageryTileLayer);
+    });
+  </script>
+</body>
+
+</html>

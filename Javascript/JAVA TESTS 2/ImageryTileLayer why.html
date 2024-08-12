@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TEMPO Data ImageryTileLayer with Get Samples</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://js.arcgis.com/4.25/"></script>
   <style>
     html, body, #viewDiv {
@@ -21,6 +22,10 @@
       padding: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
+    canvas {
+      display: block;
+      margin: 10px auto;
+    }
   </style>
 </head>
 <body>
@@ -28,6 +33,7 @@
   <div id="controlPanel">
     <h3>Draw a Shape and Get Samples</h3>
     <button onclick="clearGraphics()">Clear Drawings</button>
+    <canvas id="sampleChart" width="400" height="200"></canvas>
   </div>
   <script>
     require([
@@ -89,15 +95,76 @@
 
       // Function to perform the Get Samples request
       function performGetSamplesRequest(geometry) {
-        // Example of preparing the geometry for the Get Samples request
-        var geometryJson = JSON.stringify(geometry.toJSON());
-        console.log("Performing Get Samples request with geometry:", geometryJson);
-        
-        // Implement your Get Samples request logic here
-        // Use the geometry to make the Get Samples request to the TEMPO ImageServer
+          const baseUrl = "https://gis.earthdata.nasa.gov/image/rest/services/C2930763263-LARC_CLOUD/TEMPO_NO2_L3_V03_tile_cache_test/ImageServer/getSamples";
+
+          // Example of reducing sample size and limiting time span
+          const params = {
+            f: 'json',
+            geometry: JSON.stringify(geometry.toJSON()),
+            geometryType: geometry.type === 'point' ? 'esriGeometryPoint' : 'esriGeometryPolygon',
+            sampleDistance: 1,  // Increase this value to reduce the number of samples
+            sampleCount: 1,  // Limit the number of samples to reduce the response size
+            returnFirstValueOnly: false,
+            interpolation: 'RSP_BilinearInterpolation',
+            outFields: '*',  // Specify the fields you need, or use '*' to get all fields
+            pixelSize: '',  // Increase pixel size to reduce sample density
+            time: '1715683263000,1715695288000',  // Limit to a specific time range
+            format: 'json'
+          };
+
+          const urlParams = new URLSearchParams(params);
+
+          fetch(`${baseUrl}?${urlParams}`)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  console.log('GetSamples Data:', data);
+                  plotSampleData(data);
+              })
+              .catch(error => console.error('Error fetching samples:', error));
       }
-      
-      
+
+      // Function to plot sample data on a chart
+      function plotSampleData(data) {
+        const times = [];
+        const values = [];
+
+        data.samples.forEach(sample => {
+          const time = sample.attributes.AcquisitionDate; // Assuming the data has a time attribute
+          const value = sample.value;
+          times.push(time);
+          values.push(value);
+        });
+
+        const ctx = document.getElementById('sampleChart').getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: times,
+            datasets: [{
+              label: 'Sample Values',
+              data: values,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+              fill: false
+            }]
+          },
+          options: {
+            scales: {
+              x: {
+                type: 'time',
+                time: {
+                  unit: 'minute'
+                }
+              }
+            }
+          }
+        });
+      }
 
       // Register the service worker
       if ('serviceWorker' in navigator) {
